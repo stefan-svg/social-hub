@@ -5,14 +5,14 @@ class Database {
     this.connect();
   }
   connect() {
-    const dbUrl = process.env.DATABASE_URL;
+    const dbUrl = "mongodb+srv://stefanciric:pgciric@social-hub-cluster.uklswbc.mongodb.net/?retryWrites=true&w=majority";
     mongoose
       .connect(dbUrl)
       .then(() => {
         console.log("Database connection successful.");
       })
       .catch((err) => {
-        console.log("Database connection error: ${ err }");
+        console.log(`Database connection error: ${ err }`);
       });
   }
 }

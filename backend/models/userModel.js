@@ -31,12 +31,6 @@ const userSchema = new mongoose.Schema({
     trim: true,
     text: true,
   },
-  birthDate: {
-    type: Date,
-    required: [true, "BirthDate is required"],
-    trim: true,
-    text: true,
-  },
 });
 
 const User = mongoose.model("User", userSchema);
