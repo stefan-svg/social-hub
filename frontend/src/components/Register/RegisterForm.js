@@ -41,7 +41,7 @@ export const RegisterForm = () => {
         setError("");
         setSuccess(resp.data.message);
         setTimeout(() => {
-          const { message, ...rest } = resp;
+          const { message, ...rest } = resp.data;
           dispatch({ type: "LOGIN", payload: rest });
           Cookies.set("user", JSON.stringify(rest));
           navigate("/");

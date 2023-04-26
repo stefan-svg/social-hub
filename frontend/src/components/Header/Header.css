@@ -1,0 +1,45 @@
+header {
+  display: flex;
+  width: 100%;
+  height: 5rem;
+  background-color: var(--primary-color);
+}
+
+header .header-left,
+header .header-right {
+  width: 50%;
+  height: 100%;
+}
+
+header .header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+header .header-right .user {
+  display: flex;
+  width: 35%;
+  height: 100%;
+}
+
+header .header-right .user .profile-picture {
+  width: 25%;
+  height: 100%;
+}
+
+header .header-right .user .name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  height: 100%;
+}
+
+header .header-right .logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+}

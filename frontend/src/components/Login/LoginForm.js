@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import "./LoginForm.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -33,6 +34,7 @@ export const LoginForm = () => {
       })
       .then((resp) => {
         dispatch({ type: "LOGIN", payload: resp.data });
+        Cookies.set("user", JSON.stringify(resp.data));
         navigate("/");
       })
       .catch((error) => {
