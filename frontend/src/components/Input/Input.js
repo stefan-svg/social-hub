@@ -1,6 +1,6 @@
-import "./LoginInput.css";
+import "./Input.css";
 
-export const LoginInput = ({
+export const Input = ({
   name,
   register,
   errors,

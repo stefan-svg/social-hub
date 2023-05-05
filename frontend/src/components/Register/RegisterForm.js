@@ -2,7 +2,7 @@ import "./RegisterForm.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
-import { RegisterInput } from "./RegisterInput";
+import { Input } from "../Input/Input";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -57,7 +57,7 @@ export const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>Register</h1>
-      <RegisterInput
+      <Input
         name={"firstName"}
         type={"text"}
         placeholder={"First name"}
@@ -71,7 +71,7 @@ export const RegisterForm = () => {
           },
         }}
       />
-      <RegisterInput
+      <Input
         name={"lastName"}
         type={"text"}
         placeholder={"Last name"}
@@ -85,7 +85,7 @@ export const RegisterForm = () => {
           },
         }}
       />
-      <RegisterInput
+      <Input
         name={"email"}
         type={"email"}
         placeholder={"Email"}
@@ -99,7 +99,7 @@ export const RegisterForm = () => {
           },
         }}
       />
-      <RegisterInput
+      <Input
         name={"password"}
         type={"password"}
         placeholder={"Password"}

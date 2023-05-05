@@ -2,11 +2,11 @@ import Cookies from "js-cookie";
 import "./LoginForm.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { LoginInput } from "./LoginInput";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { Input } from "../Input/Input";
 
 const cssOverride = {
   marginTop: "1rem",
@@ -45,7 +45,7 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <LoginInput
+      <Input
         name={"email"}
         type={"email"}
         placeholder={"Email"}
@@ -59,7 +59,7 @@ export const LoginForm = () => {
           },
         }}
       />
-      <LoginInput
+      <Input
         name={"password"}
         type={"password"}
         placeholder={"Password"}

@@ -43,3 +43,16 @@ header .header-right .logout {
   width: 20%;
   height: 100%;
 }
+
+.logout-btn {
+  background-color: #ff8a5b;
+  border-radius: 8px;
+  text-align: center;
+  height: 1.8rem;
+  font-size: 1.1rem;
+  color: #fff;
+  width: 55%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
