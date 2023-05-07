@@ -1,0 +1,13 @@
+.home {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.home_left,
+.home_right {
+  width: 25%;
+}
+
+.home_middle {
+  width: 50%;
+}
