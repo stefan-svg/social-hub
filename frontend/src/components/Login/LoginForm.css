@@ -26,3 +26,14 @@ button:hover {
   background-color: #139465;
   transition: all 0.2s;
 }
+
+.register-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.register-link-text {
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}

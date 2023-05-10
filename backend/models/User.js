@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     trim: true,
     text: true,
   },
+  posts:{
+    
+
+  }
 });
 
 const User = mongoose.model("User", userSchema);

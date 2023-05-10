@@ -22,9 +22,9 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
         </Route>
-        <Route path="/register" element={<Register />} />
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} exact />
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
     </Provider>

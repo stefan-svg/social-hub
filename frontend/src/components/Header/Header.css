@@ -45,7 +45,7 @@ header .header-right .logout {
 }
 
 .logout-btn {
-  background-color: #ff8a5b;
+  background-color: #61db46;
   border-radius: 8px;
   text-align: center;
   height: 1.8rem;
@@ -54,5 +54,8 @@ header .header-right .logout {
   width: 55%;
   cursor: pointer;
   transition: all 0.2s;
+}
+.logout :hover{
+  background-color: #029413;
 }
 

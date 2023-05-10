@@ -25,13 +25,13 @@ export const Header = () => {
           </div>
         </div>
         <div className="logout">
-          <buton className="logout-btn"
+          <button className="logout-btn"
             onClick={() => {
               logout();
             }}
           >
             Logout
-          </buton>
+          </button>
         </div>
       </div>
     </header>

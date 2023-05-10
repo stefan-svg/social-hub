@@ -1,8 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-const selectUser = (state) => state.user;
 export default function NotLoggedInRoutes() {
-    const user = useSelector(selectUser);
-
+  const user = useSelector((state) => state.user);
   return user ? <Navigate to="/"/> : <Outlet />;
 }

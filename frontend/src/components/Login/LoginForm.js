@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { Input } from "../Input/Input";
+import { Link } from "react-router-dom";
 
 const cssOverride = {
   marginTop: "1rem",
@@ -79,6 +80,12 @@ export const LoginForm = () => {
         />
       )}
       {error && <div className="error">{error}</div>}
+      <div className="register-link">
+        Don't have an account?{" "}
+        <Link to="/register" className="register-link-text">
+          Register
+        </Link>
+      </div>
     </form>
   );
 };

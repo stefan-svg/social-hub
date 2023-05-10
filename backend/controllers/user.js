@@ -4,7 +4,7 @@ const {
   validateEmail,
   validateUsername,
 } = require("../helpers/validation");
-const User = require("../models/userModel");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 exports.login = async (req, res) => {

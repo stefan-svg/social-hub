@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { Login } from "../pages/login/Login";
-const selectUser = (state) => state.user;
 
 export default function LoggedInRoutes() {
-  const user = useSelector(selectUser);
+  const user = useSelector((state) => state.user);
   return user ? <Outlet /> : <Login />;
 }
