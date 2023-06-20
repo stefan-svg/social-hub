@@ -24,6 +24,7 @@ exports.login = async (req, res) => {
     }
 
     const token = generateToken({ id: user._id.toString() }, "7d");
+    console.log('token: ',token)
     res.send({
       id: user._id,
       username: user.username,

@@ -3,9 +3,57 @@ const User = require("../models/User");
 
 exports.createPost = async (req, res) => {
   try {
-    const post = await new Post(req.body).save();
-    await post.populate("user", "first_name last_name cover picture username");
+    const { text, id } = req.body;
+    const post = await new Post({ content: text, postedBy: id }).save();
+    await post.populate({
+      path: "postedBy",
+      select: "firstName lastName",
+    });
+
     res.json(post);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deletePost = async (req, res) => {
+  try {
+    console.log("ADasdsadsdsa");
+    await Post.findByIdAndRemove(req.params.id);
+    res.json({ status: "ok" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+exports.getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().populate('postedBy');
+    res.json(posts);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.comment = async (req, res) => {
+  try {
+    const { comment, postId } = req.body;
+    let newComments = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: {
+          comments: {
+            comment: comment,
+            commentBy: req.user.id,
+            commentAt: new Date(),
+          },
+        },
+      },
+      {
+        new: true,
+      }
+    ).populate("comments.commentBy", "first_name last_name username");
+    res.json(newComments.comments);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

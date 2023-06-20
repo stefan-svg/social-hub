@@ -1,12 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, "Username is required"],
-    trim: true,
-    text: true,
-  },
   password: {
     type: String,
     required: [true, "Password is required"],
@@ -31,10 +25,6 @@ const userSchema = new mongoose.Schema({
     trim: true,
     text: true,
   },
-  posts:{
-    
-
-  }
 });
 
 const User = mongoose.model("User", userSchema);

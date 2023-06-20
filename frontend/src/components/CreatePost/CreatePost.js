@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Modal from "react-modal";
 import "./CreatePost.css";
+import { useSelector } from "react-redux";
 
-export const CreatePost = ({ user }) => {
+export const CreatePost = () => {
+  const user = useSelector((state) => state.user);
   const [modalOpen, setModalOpen] = useState(false);
   const [postText, setPostText] = useState("");
-  const [posts, setPosts] = useState([]);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -13,60 +15,62 @@ export const CreatePost = ({ user }) => {
 
   const handleModalClose = () => {
     setModalOpen(false);
+    setPostText("");
   };
 
   const handlePostTextChange = (event) => {
     setPostText(event.target.value);
   };
 
-  const handlePostSubmit = () => {
-    if (postText.trim() !== "") {
-      const newPost = {
-        id: Date.now(),
-        text: postText,
-      };
-
-      setPosts([...posts, newPost]);
-      setPostText("");
-      handleModalClose();
-    }
+  const handlePostSubmit = async (e) => {
+    await axios
+      .post(
+        `http://localhost:8080/createPost`,
+        {
+          text: postText,
+          id: user.id,
+        },
+        { headers: { Authorization: "Bearer " + user.token } }
+      )
+      .catch((error) => console.log(error));
+    handleModalClose();
   };
 
   return (
     <div className="new_post">
-      <div className="post_profile_picture"></div>
+      <div className="post_profile_picture">
+        <img
+          src="https://cdn.vox-cdn.com/thumbor/MbYxeyxG82sFlibdnv9Br1aCLg8=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/24395697/bkq6gtrpcnw43vsm5zm62q3z.png"
+          alt=""
+        />
+      </div>
       <div className="create_post" onClick={handleModalOpen}>
         What's on your mind, {user.firstName}?
       </div>
-
-      {posts.map((post) => (
-        <div key={post.id} className="post">
-          <div className="post_text">{post.text}</div>
-          <div className="post_buttons">
-            <button className="post_button">Like</button>
-            <button className="post_button">Comment</button>
-          </div>
-        </div>
-      ))}
-
       <Modal
         isOpen={modalOpen}
         onRequestClose={handleModalClose}
         className="modal"
         overlayClassName="modal_overlay"
-      ><>
-        <textarea
-          className="modal_textarea"
-          placeholder="Enter your text"
-          value={postText}
-          onChange={handlePostTextChange}
-        ></textarea>
-        <button className="modal_submit_button" onClick={handlePostSubmit}>
-          Post
-        </button>
-        <button className="modal_close_button" onClick={handleModalClose}>
-          Close
-        </button>
+        ariaHideApp={false}
+        style={{
+          content: { width: "35%", borderRadius: "10px" },
+        }}
+      >
+        <>
+          <form
+            onSubmit={(e) => {
+              handlePostSubmit(e);
+            }}
+          >
+            <textarea
+              className="modal_textarea"
+              placeholder="Enter your text"
+              value={postText}
+              onChange={handlePostTextChange}
+            ></textarea>
+            <button className="modal_submit_button">Post</button>
+          </form>
         </>
       </Modal>
     </div>

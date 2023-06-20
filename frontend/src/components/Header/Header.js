@@ -19,7 +19,8 @@ export const Header = () => {
       <div className="header-left"></div>
       <div className="header-right">
         <div className="user">
-          <div className="profile-picture"></div>
+          <div className="profile-picture">
+          </div>
           <div className="name">
             {user.firstName} {user.lastName}
           </div>
