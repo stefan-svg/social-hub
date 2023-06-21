@@ -1,7 +1,6 @@
 require("dotenv").config();
 require("./database.js");
 const express = require("express");
-const User = require("./models/User.js");
 const app = express();
 const cors = require("cors");
 const { readdirSync } = require("fs");

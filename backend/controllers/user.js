@@ -5,6 +5,7 @@ const {
   validateUsername,
 } = require("../helpers/validation");
 const User = require("../models/User");
+const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 
 exports.login = async (req, res) => {
@@ -24,7 +25,6 @@ exports.login = async (req, res) => {
     }
 
     const token = generateToken({ id: user._id.toString() }, "7d");
-    console.log('token: ',token)
     res.send({
       id: user._id,
       username: user.username,
@@ -93,4 +93,13 @@ exports.register = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const profile = await User.findOne({ username }).select("-password");
+    const posts = await Post.find({ postedBy: profile._id }).populate("postedBy").populate("comments.commentBy");
+    return res.send({profile, posts})
+  } catch (error) {}
 };
