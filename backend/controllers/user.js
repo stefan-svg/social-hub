@@ -30,6 +30,7 @@ exports.login = async (req, res) => {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
+      profilePicture: user.profilePicture,
       token,
     });
   } catch (error) {
@@ -82,12 +83,15 @@ exports.register = async (req, res) => {
       username: newUsername,
     }).save();
 
+    const token = generateToken({ id: user._id.toString() }, "7d");
+
     res.send({
       id: user._id,
       username: user.username,
-      picture: user.picture,
+      profilePicture: user.profilePicture,
       firstName: user.firstName,
       lastName: user.lastName,
+      token,
       message: "Register Success!",
     });
   } catch (error) {
@@ -99,7 +103,9 @@ exports.getProfile = async (req, res) => {
   try {
     const { username } = req.params;
     const profile = await User.findOne({ username }).select("-password");
-    const posts = await Post.find({ postedBy: profile._id }).populate("postedBy").populate("comments.commentBy");
-    return res.send({profile, posts})
+    const posts = await Post.find({ postedBy: profile._id })
+      .populate("postedBy")
+      .populate("comments.commentBy");
+    return res.send({ profile, posts });
   } catch (error) {}
 };

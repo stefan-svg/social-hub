@@ -40,7 +40,7 @@ export const Home = () => {
         <div className="home_middle">
           <CreatePost user={user} />
           <div className="all-posts-home">
-            {posts.map((post, i) => (
+            {posts?.map((post, i) => (
               <Post key={i} post={post} user={user} />
             ))}
           </div>

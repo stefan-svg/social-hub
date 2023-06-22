@@ -34,6 +34,7 @@ export const LoginForm = () => {
         password,
       })
       .then((resp) => {
+        console.log(resp.data)
         dispatch({ type: "LOGIN", payload: resp.data });
         Cookies.set("user", JSON.stringify(resp.data));
         navigate("/");

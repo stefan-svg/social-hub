@@ -25,7 +25,6 @@ export const callApi = async (path, method, token, payload) => {
         responseData = await httpMethod(url, config);
       }
       const { data } = responseData;
-      console.log(data)
       return data;
     }
   } catch (error) {

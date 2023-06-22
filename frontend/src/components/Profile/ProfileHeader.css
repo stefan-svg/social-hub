@@ -1,0 +1,30 @@
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.profile-picture {
+    border: none;
+    outline: none;
+}
+
+.profile-picture img {
+  width: 13rem;
+  height: 13rem;
+  border: none;
+  outline: none;
+}
+
+.user-infos h1 {
+  margin-left: 4rem;
+  font-size: 3rem;
+}
