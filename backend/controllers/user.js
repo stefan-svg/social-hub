@@ -103,9 +103,25 @@ exports.getProfile = async (req, res) => {
   try {
     const { username } = req.params;
     const profile = await User.findOne({ username }).select("-password");
-    const posts = await Post.find({ postedBy: profile._id })
-      .populate("postedBy")
-      .populate("comments.commentBy");
-    return res.send({ profile, posts });
-  } catch (error) {}
+    const posts = await Post.find({ postedBy: profile._id }).populate("postedBy").populate("comments.commentBy");
+    return res.send({ profile, posts })
+  } catch (error) { }
 };
+
+exports.search = async (req, res) => {
+  try {
+    const searchTerm = req.query.searchTerm;
+    console.log(searchTerm);
+    const results = await User.find({
+      $or: [
+        { firstName: { $regex: searchTerm, $options: "i" } },
+        { lastName: { $regex: searchTerm, $options: "i" } },
+      ],
+    }).select("firstName lastName");
+
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

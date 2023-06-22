@@ -29,13 +29,13 @@ export const Post = ({ post }) => {
         {post.content}
       </div>
       <div className="post-footer">
-        <button>Lajk</button>
-        <button onClick={handleCommentClick}>Komentar</button>
+        <button>Like</button>
+        <button onClick={handleCommentClick}>Comment</button>
       </div>
       {isCommenting && (
         <div className="comment-input">
           <input type="text" placeholder="Unesite komentar" />
-          <button>Objavi</button>
+          <button>Publish</button>
         </div>
       )}
     </div>
