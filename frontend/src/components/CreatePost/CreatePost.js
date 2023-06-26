@@ -40,7 +40,7 @@ export const CreatePost = () => {
     <div className="new_post">
       <div className="post_profile_picture">
         <img
-          src="https://cdn.vox-cdn.com/thumbor/MbYxeyxG82sFlibdnv9Br1aCLg8=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/24395697/bkq6gtrpcnw43vsm5zm62q3z.png"
+          src={user.profilePicture}
           alt=""
         />
       </div>

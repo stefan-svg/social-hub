@@ -7,31 +7,23 @@ header {
 }
 
 header .header-left {
-  width: 90%;
+  width: 80%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
 }
 
-header .header-left .search-bar {
-  width: 70%;
-  margin-left: 1rem;
-}
-
-header .header-left .search-bar input {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 4px;
-  border: none;
-  font-size: 1rem;
+header .header-left .logo {
+  color: #fff;
+  margin: 0 4rem;
+  cursor: pointer;
 }
 
 header .header-right {
-  width: 10%;
+  width: 20%;
   height: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
 }
 

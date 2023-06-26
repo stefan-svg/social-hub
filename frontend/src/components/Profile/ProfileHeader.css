@@ -13,15 +13,14 @@
 }
 
 .profile-picture {
-    border: none;
-    outline: none;
+  display: flex;
+  border-radius: 50%;
 }
 
 .profile-picture img {
+  border-radius: 50%;
   width: 13rem;
   height: 13rem;
-  border: none;
-  outline: none;
 }
 
 .user-infos h1 {

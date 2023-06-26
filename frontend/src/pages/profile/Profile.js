@@ -7,6 +7,8 @@ import { useReducer } from "react";
 import { profileReducer } from "../../functions/reducers";
 import { callApi } from "../../helpers/callApi";
 import { ProfileHeader } from "../../components/Profile/ProfileHeader";
+import { CreatePost } from "../../components/CreatePost/CreatePost";
+import { Post } from "../../components/Post/Post";
 
 export const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -28,7 +30,7 @@ export const Profile = () => {
       const data = await callApi(`profile/${username}`, "get", user.token);
       setResult(data);
       dispatch({ type: "PROFILE_SUCCESS", payload: result });
-    } catch (error) {
+    } catch (err) {
       dispatch({
         type: "PROFILE_ERROR",
         payload: error.response.data.message,
@@ -39,8 +41,23 @@ export const Profile = () => {
   return (
     <>
       <Header />
-      <ProfileHeader data={result} />
-      {user.id === result.profile?._id ? <h1>ISTI SU</h1> : <h1>NISU ISTI</h1>}
+      {result ? (
+        <>
+          <ProfileHeader data={result} />
+          <div className="profile-body">
+            <div className="profile-middle">
+              {user.id === result.profile?._id ? <CreatePost /> : null}
+              <div className="user-posts">
+                {result.posts?.map((post, i) => (
+                  <Post key={i} post={post} user={user} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div></div>
+      )}
     </>
   );
 };
