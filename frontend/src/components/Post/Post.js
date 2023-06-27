@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Post.css";
 
 export const Post = ({ post }) => {
@@ -14,16 +15,19 @@ export const Post = ({ post }) => {
     month: "long",
     day: "numeric",
   });
+
   return (
     <div className="post">
       <div className="post-header">
-        <img
-          src={post.postedBy.profilePicture}
-          alt=""
-        />
+        <img src={post.postedBy.profilePicture} alt="" />
         <div className="post-user-info">
           <p>
-            {post.postedBy.firstName} {post.postedBy.lastName}
+            <Link
+              className="profile-link"
+              to={`/profile/${post.postedBy.username}`}
+            >
+              {post.postedBy.firstName} {post.postedBy.lastName}
+            </Link>
           </p>
           <p className="created">{formattedDate}</p>
         </div>

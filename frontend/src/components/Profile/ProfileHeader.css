@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   width: 50%;
+  height: 14rem;
 }
 
 .profile-picture {
@@ -26,4 +27,30 @@
 .user-infos h1 {
   margin-left: 4rem;
   font-size: 3rem;
+}
+
+.buttons {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.buttons button {
+  margin: 0 2rem;
+  width: 7rem;
+  height: 2.5rem;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.buttons .unfollow-button {
+  background-color: #fff;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
 }

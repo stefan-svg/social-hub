@@ -36,9 +36,21 @@ const userSchema = new mongoose.Schema({
     default:
       "https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png",
   },
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
-userSchema.index({ firstName: 'text', lastName: 'text', email: 'text' });
+userSchema.index({ firstName: "text", lastName: "text", email: "text" });
 
 const User = mongoose.model("User", userSchema);
 
