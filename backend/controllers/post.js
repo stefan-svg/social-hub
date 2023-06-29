@@ -67,7 +67,7 @@ exports.likePost = async (req, res) => {
       return res.status(404).json({ message: 'Post does not exists!' });
     }
 
-    const userId = "649424eadcabdb593aa636ef";
+    const userId = user.req.id;
     const likes = post.likes;
 
     const isLiked = likes.includes(userId);

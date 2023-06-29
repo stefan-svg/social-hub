@@ -33,7 +33,7 @@
 }
 
 .post-footer {
-  border-top:1px solid rgba(120, 119, 119, 0.25);
+  border-top: 1px solid rgba(120, 119, 119, 0.25);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -41,7 +41,7 @@
   width: 100%;
   margin-top: 2rem;
 }
-.post-footer button{
+.post-footer button {
   width: 15%;
 }
 
@@ -49,6 +49,15 @@
   flex: 1;
   margin-left: 1rem;
   height: max-content;
+}
+
+.post-user-info .profile-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.post-user-info .profile-link:hover {
+  border-bottom: 1px solid black;
 }
 
 .post-user-info .created {

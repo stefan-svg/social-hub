@@ -1,5 +1,5 @@
 const express = require("express");
-const { login, register, getProfile, search, follow, unfollow } = require("../controllers/user");
+const { login, register, getProfile, search } = require("../controllers/user");
 
 const { authUser } = require("../middlwares/auth");
 const router = express.Router();
@@ -8,8 +8,7 @@ router.post("/login", login);
 router.post("/register", register);
 router.get("/profile/:username", authUser, getProfile);
 router.get("/search", authUser, search);
-router.put("/follow/:id", follow);
+router.put("/follow/:id", authUser, follow);
 router.put("/unfollow/:id", authUser, unfollow);
-
 
 module.exports = router;
