@@ -36,6 +36,8 @@ export function profileReducer(state, action) {
       };
     case "PROFILE_ERROR":
       return { ...state, loading: false, error: action.payload };
+    case "FOLLOW_UNFOLLOW":
+      return { ...state };
 
     default:
       return state;

@@ -10,7 +10,7 @@ export const Post = ({ post }) => {
   };
 
   const createdAt = new Date(post.createdAt);
-  const formattedDate = createdAt.toLocaleDateString("sr-RS", {
+  const formattedDate = createdAt.toLocaleDateString("en-EN", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -34,15 +34,13 @@ export const Post = ({ post }) => {
       </div>
       <div className="post-content">{post.content}</div>
       <div className="post-footer">
-        <button>Like</button>
-        <button onClick={handleCommentClick}>Comment</button>
-      </div>
-      {isCommenting && (
-        <div className="comment-input">
-          <input type="text" placeholder="Unesite komentar" />
-          <button>Publish</button>
+        <div className="like-button">
+          <span className="material-symbols-outlined">thumb_up</span>Like
         </div>
-      )}
+        <div className="comment-button">
+          <span class="material-symbols-outlined">chat_bubble</span>Comment
+        </div>
+      </div>
     </div>
   );
 };

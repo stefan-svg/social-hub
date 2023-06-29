@@ -21,6 +21,23 @@
 .post {
   width: 100%;
   height: max-content;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.post_text {
+  margin-bottom: 0.5rem;
+  flex: 1;
+}
+
+.post_buttons {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .post-content {
@@ -33,13 +50,10 @@
 }
 
 .post-footer {
-  border-top: 1px solid rgba(120, 119, 119, 0.25);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 0.2rem;
   width: 100%;
-  margin-top: 2rem;
 }
 .post-footer button {
   width: 15%;
@@ -68,26 +82,35 @@
   width: 100%;
   height: max-content;
   word-break: break-all;
+  border-bottom: 1px solid rgba(120, 119, 119, 0.25);
+  padding-bottom: 2rem;
 }
 
-.comment-input {
+.post-footer {
   display: flex;
-  margin-top: 1rem;
 }
 
-.comment-input input {
-  flex: 1;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  padding: 5px;
-}
-
-.comment-input button {
-  border: none;
-  background-color: #3578e5;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 3px;
-  margin-left: 5px;
+.post-footer .like-button,
+.post-footer .comment-button {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  color: rgba(0, 0, 0, 0.75);
   cursor: pointer;
+}
+
+.post-footer .like-button:hover,
+.post-footer .comment-button:hover {
+  background-color: rgb(238, 238, 238);
+}
+
+.post-footer .like-button span,
+.post-footer .comment-button span {
+  color: var(--primary-color);
+}
+
+.post-footer .like-button {
+  border-right: 1px solid rgba(120, 119, 119, 0.25);
 }

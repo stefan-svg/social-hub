@@ -62,7 +62,7 @@ export const Search = () => {
               <div className="search-profile-info">
                 {user.firstName} {user.lastName}
               </div>
-              <span class="material-symbols-outlined">chevron_right</span>
+              <span className="material-symbols-outlined">chevron_right</span>
             </div>
           ))}
         </div>

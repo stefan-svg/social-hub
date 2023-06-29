@@ -2,8 +2,7 @@ import "./Profile.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Header } from "../../components/Header/Header";
-import { useEffect, useState } from "react";
-import { useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
 import { profileReducer } from "../../functions/reducers";
 import { callApi } from "../../helpers/callApi";
 import { ProfileHeader } from "../../components/Profile/ProfileHeader";
@@ -41,9 +40,9 @@ export const Profile = () => {
   return (
     <>
       <Header />
-      {result ? (
+      {loading ? null : result ? (
         <>
-          <ProfileHeader data={result} />
+          <ProfileHeader data={result} loading={loading} />
           <div className="profile-body">
             <div className="profile-middle">
               {user.id === result.profile?._id ? <CreatePost /> : null}
