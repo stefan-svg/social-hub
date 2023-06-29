@@ -25,7 +25,6 @@ export const Search = () => {
         user.token
       );
       setSearchResults(results);
-      console.log(searchResults);
     } catch (err) {
       console.log(err);
     }

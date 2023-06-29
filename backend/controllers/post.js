@@ -51,8 +51,36 @@ exports.comment = async (req, res) => {
       {
         new: true,
       }
-    ).populate("comments.commentBy", "first_name last_name username");
+    ).populate("comments.commentBy", "firstName lastName username");
     res.json(newComments.comments);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.likePost = async (req, res) => {
+  try {
+    const { postId } = req.body;
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post does not exists!' });
+    }
+
+    const userId = user.req.id;
+    const likes = post.likes;
+
+    const isLiked = likes.includes(userId);
+
+    if (isLiked) {
+      post.likes = likes.filter((id) => id.toString() !== userId);
+    } else {
+      post.likes.push(userId);
+    }
+
+    await post.save();
+
+    res.json({ message: 'Success' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

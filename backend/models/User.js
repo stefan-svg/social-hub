@@ -35,8 +35,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     default:
       "https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png",
-  },
-  following: [
+  }, following: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

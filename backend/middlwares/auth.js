@@ -6,16 +6,18 @@ exports.authUser = async (req, res, next) => {
 
     const token = tmp ? tmp.slice(7, tmp.length) : "";
     if (!token) {
-      return res.status(400).json({ message: "Invalid Authentification!" });
+      return res.status(400).json({ message: "Invalid Authorization!" });
     }
-    jwt.verify(token, "process.env.TOKEN_SECRET", (err, user) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) {
-        return res.status(400).json({ message: "Invalid Authentification" });
+        console.log(err)
+        return res.status(400).json({ message: "Invalid Authorization!" });
       }
       req.user = user;
       next();
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ message: error.message });
   }
 };
