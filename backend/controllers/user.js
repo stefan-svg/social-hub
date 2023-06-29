@@ -118,14 +118,77 @@ exports.getProfile = async (req, res) => {
 exports.search = async (req, res) => {
   try {
     const searchTerm = req.query.searchTerm;
+
+    if (!searchTerm) {
+      return res.json([]);
+    }
+
     const results = await User.find({
       $or: [
         { firstName: { $regex: searchTerm, $options: "i" } },
         { lastName: { $regex: searchTerm, $options: "i" } },
       ],
-    }).select("firstName lastName profilePicture username");
+    })
+      .collation({ locale: "sr", strength: 2 })
+      .select("firstName lastName profilePicture username");
 
     res.json(results);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.follow = async (req, res) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      const sender = await User.findById(req.user.id);
+      const receiver = await User.findById(req.params.id);
+      if (
+        !receiver.followers.includes(sender._id) &&
+        !sender.following.includes(receiver._id)
+      ) {
+        await receiver.updateOne({
+          $push: { followers: sender._id },
+        });
+
+        await sender.updateOne({
+          $push: { following: receiver._id },
+        });
+        res.json({ message: "follow success" });
+      } else {
+        return res.status(400).json({ message: "Already following" });
+      }
+    } else {
+      return res.status(400).json({ message: "You can't follow yourself" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.unfollow = async (req, res) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      const sender = await User.findById(req.user.id);
+      const receiver = await User.findById(req.params.id);
+      if (
+        receiver.followers.includes(sender._id) &&
+        sender.following.includes(receiver._id)
+      ) {
+        await receiver.updateOne({
+          $pull: { followers: sender._id },
+        });
+
+        await sender.updateOne({
+          $pull: { following: receiver._id },
+        });
+        res.json({ message: "unfollow success" });
+      } else {
+        return res.status(400).json({ message: "Already not following" });
+      }
+    } else {
+      return res.status(400).json({ message: "You can't unfollow yourself" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
