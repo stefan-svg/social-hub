@@ -41,7 +41,7 @@ export const Home = () => {
           <CreatePost user={user} />
           <div className="all-posts-home">
             {posts?.map((post, i) => (
-              <Post key={i} post={post} user={user} />
+              <Post key={i} post={post} user={user} loading={loading} />
             ))}
           </div>
         </div>

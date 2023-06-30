@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { callApi } from "../../helpers/callApi";
 import "./Post.css";
 
-export const Post = ({ post }) => {
-  const [isCommenting, setIsCommenting] = useState(false);
+export const Post = ({ post, loading, user }) => {
+  const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
 
-  const handleCommentClick = () => {
-    setIsCommenting(true);
+  const handleLike = async () => {
+    try {
+      await callApi(`likePost`, "put", user.token, { postId: post._id });
+      setIsLiked(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleUnlike = async () => {
+    try {
+      await callApi(`likePost`, "put", user.token, { postId: post._id });
+      setIsLiked(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const createdAt = new Date(post.createdAt);
@@ -16,7 +31,7 @@ export const Post = ({ post }) => {
     day: "numeric",
   });
 
-  return (
+  return loading ? null : (
     <div className="post">
       <div className="post-header">
         <img src={post.postedBy.profilePicture} alt="" />
@@ -34,11 +49,18 @@ export const Post = ({ post }) => {
       </div>
       <div className="post-content">{post.content}</div>
       <div className="post-footer">
-        <div className="like-button">
-          <span className="material-symbols-outlined">thumb_up</span>Like
-        </div>
+        {isLiked ? (
+          <div className="like-button" onClick={handleUnlike}>
+            <span className="material-symbols-outlined">thumb_up</span>Liked
+          </div>
+        ) : (
+          <div className="like-button" onClick={handleLike}>
+            <span className="material-symbols-outlined">thumb_up</span>Like
+          </div>
+        )}
         <div className="comment-button">
-          <span class="material-symbols-outlined">chat_bubble</span>Comment
+          <span className="material-symbols-outlined">chat_bubble</span>
+          Comment
         </div>
       </div>
     </div>

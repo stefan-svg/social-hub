@@ -26,13 +26,12 @@ exports.deletePost = async (req, res) => {
 };
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find({}).populate('postedBy');
+    const posts = await Post.find({}).populate("postedBy");
     res.json(posts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-
 
 exports.comment = async (req, res) => {
   try {
@@ -62,12 +61,10 @@ exports.likePost = async (req, res) => {
   try {
     const { postId } = req.body;
     const post = await Post.findById(postId);
-
     if (!post) {
-      return res.status(404).json({ message: 'Post does not exists!' });
+      return res.status(404).json({ message: "Post does not exists!" });
     }
-
-    const userId = user.req.id;
+    const userId = req.user.id;
     const likes = post.likes;
 
     const isLiked = likes.includes(userId);
@@ -80,7 +77,7 @@ exports.likePost = async (req, res) => {
 
     await post.save();
 
-    res.json({ message: 'Success' });
+    res.json({ message: "Success" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
