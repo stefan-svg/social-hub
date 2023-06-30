@@ -28,6 +28,10 @@ export const Header = () => {
     event.stopPropagation();
   };
 
+  const handleClick = () => {
+    navigate(`/profile/${user.username}`);
+  };
+
   return (
     <header>
       <div className="header-left">
@@ -37,8 +41,8 @@ export const Header = () => {
         <Search />
       </div>
       <div className="header-right">
-        <div className="header-profile-picture">
-          <img onClick={userDetails} src={user.profilePicture} alt="" />
+        <div className="header-profile-picture" onClick={handleClick}>
+          <img /*onClick={userDetails}*/ src={user.profilePicture} alt="" />
           {isOpen ? (
             <div className="user-details" onClick={handleInputClick}>
               <input type="text" />

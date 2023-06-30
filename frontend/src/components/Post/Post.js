@@ -5,6 +5,8 @@ import "./Post.css";
 
 export const Post = ({ post, loading, user }) => {
   const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
+  const [isCommenting, setIsCommenting] = useState(false);
+  const [comment, setComment] = useState("");
 
   const handleLike = async () => {
     try {
@@ -19,6 +21,16 @@ export const Post = ({ post, loading, user }) => {
     try {
       await callApi(`likePost`, "put", user.token, { postId: post._id });
       setIsLiked(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleComment = async () => {
+    try {
+      await callApi(`comment`, "put", user.token, { postId: post._id, comment: comment });
+      setComment("");
+      setIsCommenting(false);
     } catch (err) {
       console.log(err);
     }
@@ -58,11 +70,27 @@ export const Post = ({ post, loading, user }) => {
             <span className="material-symbols-outlined">thumb_up</span>Like
           </div>
         )}
-        <div className="comment-button">
+        <div className="comment-button" onClick={() => setIsCommenting(true)}>
           <span className="material-symbols-outlined">chat_bubble</span>
           Comment
         </div>
       </div>
+      {isCommenting && (
+        <div className="comment-input">
+          <textarea
+            rows="3"
+            placeholder="Write a comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            style={{ width: "100%" }}
+          ></textarea>
+          <div>
+            <button onClick={handleComment}>Submit</button>
+            <button onClick={() => setIsCommenting(false)}>Cancel</button>
+          </div>
+
+        </div>
+      )}
     </div>
   );
 };

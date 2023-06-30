@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "../Input/Input";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 const cssOverride = {
@@ -124,6 +124,12 @@ export const RegisterForm = () => {
       )}
       {error && <div className="error">{error}</div>}
       {success && <div className="success">{success}</div>}
+      <div className="register-link">
+        Already have account?{" "}
+        <Link to="/login" className="register-link-text">
+          Login
+        </Link>
+      </div>
     </form>
   );
 };
