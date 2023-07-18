@@ -33,7 +33,10 @@ exports.getAllPosts = async (req, res) => {
     const promises = following.map((user) => {
       return Post.find({ postedBy: user })
         .populate("postedBy", "firstName lastName profilePicture username")
-        .populate("comments.commentBy", "firstName lastName profilePicture username")
+        .populate(
+          "comments.commentBy",
+          "firstName lastName profilePicture username"
+        )
         .sort({ createdAt: -1 })
         .limit(10);
     });
@@ -41,7 +44,10 @@ exports.getAllPosts = async (req, res) => {
 
     const userPosts = await Post.find({ postedBy: req.user.id })
       .populate("postedBy", "firstName lastName profilePicture username")
-      .populate("comments.commentBy", "firstName lastName profilePicture username")
+      .populate(
+        "comments.commentBy",
+        "firstName lastName profilePicture username"
+      )
       .sort({ createdAt: -1 })
       .limit(10);
 
@@ -96,6 +102,40 @@ exports.likePost = async (req, res) => {
 
     await post.save();
 
+    res.json({ message: "Success" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.likeComment = async (req, res) => {
+  try {
+    const { postId } = req.body;
+    const { commentId } = req.body;
+    const userId = req.user.id;
+
+    const comment = await Post.findOne(
+      { _id: postId },
+      { comments: { $elemMatch: { _id: commentId } } }
+    );
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment does not exists!" });
+    }
+
+    const likes = comment.comments[0].likes;
+
+    const isLiked = likes.includes(userId);
+
+    if (isLiked) {
+      comment.comments[0].likes = likes.filter((id) => id.toString() !== userId);
+    } else {
+      comment.comments[0].likes.push(userId);
+    }
+
+    comment.comments[0].likes.push(userId);
+
+    await comment.save();
     res.json({ message: "Success" });
   } catch (error) {
     return res.status(500).json({ message: error.message });

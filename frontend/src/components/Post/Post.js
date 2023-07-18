@@ -46,9 +46,15 @@ export const Post = ({ post, loading, user }) => {
       if (comment.trim() === "") {
         return;
       }
-      await callApi(`comment`, "put", user.token, { postId: post._id, comment: comment });
+      await callApi(`comment`, "put", user.token, {
+        postId: post._id,
+        comment: comment,
+      });
       setComment("");
-      const updatedComments = [...comments, { comment: comment, commentBy: user }];
+      const updatedComments = [
+        ...comments,
+        { comment: comment, commentBy: user },
+      ];
       setComments(updatedComments);
     } catch (err) {
       console.log(err);
@@ -57,17 +63,19 @@ export const Post = ({ post, loading, user }) => {
 
   const handleCommentDelete = (commentId) => {
     try {
-      const updatedComments = comments.filter((comment) => comment._id !== commentId);
+      const updatedComments = comments.filter(
+        (comment) => comment._id !== commentId
+      );
       setComments(updatedComments);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const handleDelete = async () => {
     try {
-      await callApi(`deletePost/${post._id}`, "delete", user.token,);
-      window.location.reload(true)
+      await callApi(`deletePost/${post._id}`, "delete", user.token);
+      window.location.reload(true);
     } catch (err) {
       console.log(err);
     }
@@ -81,7 +89,6 @@ export const Post = ({ post, loading, user }) => {
     hour: "numeric",
     minute: "numeric",
   });
-
 
   return loading ? null : (
     <div className="post">
@@ -99,9 +106,7 @@ export const Post = ({ post, loading, user }) => {
           <p className="created">{formattedDate}</p>
           {user.id === post.postedBy._id && (
             <div className="delete-button" onClick={handleModalToggle}>
-              <span className="material-symbols-outlined">
-                delete
-              </span>
+              <span className="material-symbols-outlined">delete</span>
             </div>
           )}
           {showModal && (
@@ -128,7 +133,7 @@ export const Post = ({ post, loading, user }) => {
             <span className="material-symbols-outlined">thumb_up</span>Like
           </div>
         )}
-        <div className="comment-button" >
+        <div className="comment-button">
           <span className="material-symbols-outlined">chat_bubble</span>
           Comment
         </div>
@@ -141,7 +146,12 @@ export const Post = ({ post, loading, user }) => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           ></textarea>
-          <span className="material-symbols-outlined send-icon" onClick={handleComment}>send</span>
+          <span
+            className="material-symbols-outlined send-icon"
+            onClick={handleComment}
+          >
+            send
+          </span>
         </div>
       </div>
       <div className="comments-container">
@@ -151,12 +161,11 @@ export const Post = ({ post, loading, user }) => {
               return new Date(b.commentAt) - new Date(a.commentAt);
             })
             .slice(0, count)
-            .map((comment, i) =>
+            .map((comment, i) => (
               <div className="comment-wrapper" key={i}>
-                <Comment comment={comment}
-                />
+                <Comment post={post} comment={comment} user={user} />
               </div>
-            )}
+            ))}
         {count < comments.length && (
           <div className="view_comments" onClick={() => showMore()}>
             View more comments

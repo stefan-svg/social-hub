@@ -5,6 +5,7 @@ const {
   getAllPosts,
   comment,
   likePost,
+  likeComment,
 } = require("../controllers/post");
 const { authUser } = require("../middlwares/auth");
 const router = express.Router();
@@ -14,4 +15,5 @@ router.delete("/deletePost/:id", authUser, deletePost);
 router.get("/getAllPosts", authUser, getAllPosts);
 router.put("/comment", authUser, comment);
 router.put("/likePost", authUser, likePost);
+router.put("/likeComment", authUser, likeComment);
 module.exports = router;
