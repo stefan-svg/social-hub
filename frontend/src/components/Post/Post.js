@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { callApi } from "../../helpers/callApi";
 import "./Post.css";
+import Comment from "../Comment/Comment";
 
 export const Post = ({ post, loading, user }) => {
   const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
-  const [isCommenting, setIsCommenting] = useState(false);
   const [comment, setComment] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    setComments(post?.comments);
+  }, [post]);
 
   const handleLike = async () => {
     try {
@@ -15,6 +22,10 @@ export const Post = ({ post, loading, user }) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleModalToggle = () => {
+    setShowModal(!showModal);
   };
 
   const handleUnlike = async () => {
@@ -26,22 +37,51 @@ export const Post = ({ post, loading, user }) => {
     }
   };
 
+  const showMore = () => {
+    setCount((prev) => prev + 3);
+  };
+
   const handleComment = async () => {
     try {
+      if (comment.trim() === "") {
+        return;
+      }
       await callApi(`comment`, "put", user.token, { postId: post._id, comment: comment });
       setComment("");
-      setIsCommenting(false);
+      const updatedComments = [...comments, { comment: comment, commentBy: user }];
+      setComments(updatedComments);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleCommentDelete = (commentId) => {
+    try {
+      const updatedComments = comments.filter((comment) => comment._id !== commentId);
+      setComments(updatedComments);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      await callApi(`deletePost/${post._id}`, "delete", user.token,);
+      window.location.reload(true)
     } catch (err) {
       console.log(err);
     }
   };
 
   const createdAt = new Date(post.createdAt);
-  const formattedDate = createdAt.toLocaleDateString("en-EN", {
+  const formattedDate = createdAt.toLocaleString("en-EN", {
     year: "numeric",
     month: "long",
     day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
   });
+
 
   return loading ? null : (
     <div className="post">
@@ -57,6 +97,24 @@ export const Post = ({ post, loading, user }) => {
             </Link>
           </p>
           <p className="created">{formattedDate}</p>
+          {user.id === post.postedBy._id && (
+            <div className="delete-button" onClick={handleModalToggle}>
+              <span className="material-symbols-outlined">
+                delete
+              </span>
+            </div>
+          )}
+          {showModal && (
+            <div className="modal-delete">
+              <div className="modal-delete-content">
+                <p>Are you sure you want to delete this post?</p>
+                <div className="modal-delete-buttons">
+                  <button onClick={handleDelete}>Delete</button>
+                  <button onClick={handleModalToggle}>Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="post-content">{post.content}</div>
@@ -70,27 +128,41 @@ export const Post = ({ post, loading, user }) => {
             <span className="material-symbols-outlined">thumb_up</span>Like
           </div>
         )}
-        <div className="comment-button" onClick={() => setIsCommenting(true)}>
+        <div className="comment-button" >
           <span className="material-symbols-outlined">chat_bubble</span>
           Comment
         </div>
       </div>
-      {isCommenting && (
-        <div className="comment-input">
+      <div className="comment-input">
+        <div className="textarea-container">
           <textarea
             rows="3"
             placeholder="Write a comment..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            style={{ width: "100%" }}
           ></textarea>
-          <div>
-            <button onClick={handleComment}>Submit</button>
-            <button onClick={() => setIsCommenting(false)}>Cancel</button>
-          </div>
-
+          <span className="material-symbols-outlined send-icon" onClick={handleComment}>send</span>
         </div>
-      )}
+      </div>
+      <div className="comments-container">
+        {comments &&
+          comments
+            .sort((a, b) => {
+              return new Date(b.commentAt) - new Date(a.commentAt);
+            })
+            .slice(0, count)
+            .map((comment, i) =>
+              <div className="comment-wrapper" key={i}>
+                <Comment comment={comment}
+                />
+              </div>
+            )}
+        {count < comments.length && (
+          <div className="view_comments" onClick={() => showMore()}>
+            View more comments
+          </div>
+        )}
+      </div>
     </div>
   );
 };

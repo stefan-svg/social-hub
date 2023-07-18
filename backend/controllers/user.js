@@ -115,6 +115,23 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+exports.getProfileById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const profile = await User.findById(id).select("-password");
+    if (!profile) {
+      return res.json({ message: "User not found!" });
+    }
+    const posts = await Post.find({ postedBy: profile._id })
+      .populate("postedBy")
+      .populate("comments.commentBy");
+    res.send({ profile, posts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 exports.search = async (req, res) => {
   try {
     const searchTerm = req.query.searchTerm;

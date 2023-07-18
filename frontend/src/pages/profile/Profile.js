@@ -47,9 +47,10 @@ export const Profile = () => {
             <div className="profile-middle">
               {user.id === result.profile?._id ? <CreatePost /> : null}
               <div className="user-posts">
-                {result.posts?.map((post, i) => (
-                  <Post key={i} post={post} user={user} loading={loading} />
-                ))}
+                {result.posts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map((post, i) => (
+                    <Post key={i} post={post} user={user} loading={loading} />
+                  ))}
               </div>
             </div>
           </div>

@@ -24,10 +24,30 @@ exports.deletePost = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find({}).populate("postedBy");
-    res.json(posts);
+    const followingTemp = await User.findById(req.user.id).select("following");
+    const following = followingTemp.following;
+
+    const promises = following.map((user) => {
+      return Post.find({ postedBy: user })
+        .populate("postedBy", "firstName lastName profilePicture username")
+        .populate("comments.commentBy", "firstName lastName profilePicture username")
+        .sort({ createdAt: -1 })
+        .limit(10);
+    });
+    const followingPosts = await (await Promise.all(promises)).flat();
+
+    const userPosts = await Post.find({ postedBy: req.user.id })
+      .populate("postedBy", "firstName lastName profilePicture username")
+      .populate("comments.commentBy", "firstName lastName profilePicture username")
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    const allPosts = [...followingPosts, ...userPosts];
+    allPosts.sort((a, b) => b.createdAt - a.createdAt);
+    res.json(allPosts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -56,7 +76,6 @@ exports.comment = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 exports.likePost = async (req, res) => {
   try {
     const { postId } = req.body;

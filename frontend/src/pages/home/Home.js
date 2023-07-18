@@ -4,7 +4,7 @@ import { Header } from "../../components/Header/Header";
 import { CreatePost } from "../../components/CreatePost/CreatePost";
 import { Post } from "../../components/Post/Post";
 import { callApi } from "../../helpers/callApi";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { postsReducer } from "../../functions/reducers";
 
 export const Home = () => {
@@ -32,6 +32,7 @@ export const Home = () => {
     fetchPosts();
   }, [user.token]);
 
+
   return (
     <>
       <Header />
@@ -40,9 +41,11 @@ export const Home = () => {
         <div className="home_middle">
           <CreatePost user={user} />
           <div className="all-posts-home">
-            {posts?.map((post, i) => (
-              <Post key={i} post={post} user={user} loading={loading} />
-            ))}
+            {posts
+              ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .map((post, i) => (
+                <Post key={i} post={post} user={user} loading={loading} />
+              ))}
           </div>
         </div>
         <div className="home_right"></div>

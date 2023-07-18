@@ -1,0 +1,51 @@
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .comment-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .comment-content {
+    flex: 1;
+    margin-left: 1rem;
+  }
+  
+  .comment-content .profile-link {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .comment-content .profile-link:hover {
+    border-bottom: 1px solid black;
+  }
+  
+  .comment-user {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  
+  .comment-text {
+    margin: 0;
+  }
+  
+  .comment-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .comment-like {
+    color: blue;
+    cursor: pointer;
+  }
+  
+  .comment-timestamp {
+    color: gray;
+    font-size: 0.8rem;
+  }
+  
