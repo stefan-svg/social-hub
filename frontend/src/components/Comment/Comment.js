@@ -5,6 +5,20 @@ import { callApi } from "../../helpers/callApi";
 
 const Comment = ({ post, comment, user }) => {
   const [isLiked, setIsLiked] = useState(comment.likes.includes(user.id));
+  const [isCommentOwner, setIsCommentOwner] = useState(
+    comment.commentBy._id === user.id
+  );
+
+  const handleCommentDelete = (commentId) => {
+    // try {
+    //   const updatedComments = comments.filter(
+    //     (comment) => comment._id !== commentId
+    //   );
+    //   setComments(updatedComments);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
 
   const handleLike = async () => {
     try {
@@ -38,17 +52,24 @@ const Comment = ({ post, comment, user }) => {
         alt=""
       />
       <div className="comment-details">
-        <div className="comment-content">
-          <Link
-            className="profile-link"
-            to={`/profile/${comment.commentBy.username}`}
-          >
-            {comment.commentBy.firstName} {comment.commentBy.lastName}
-          </Link>
-          <p className="comment-text">{comment.comment}</p>
+        <div className="own-comment">
+          <div className="comment-content">
+            <Link
+              className="profile-link"
+              to={`/profile/${comment.commentBy.username}`}
+            >
+              {comment.commentBy.firstName} {comment.commentBy.lastName}
+            </Link>
+            <p className="comment-text">{comment.comment}</p>
+          </div>
+          {isCommentOwner ? (
+            <div className="comment-more" onClick={handleCommentDelete}>
+              <span className="material-symbols-outlined">delete</span>
+            </div>
+          ) : null}
         </div>
         {isLiked ? (
-          <div className="comment-like" onClick={handleUnlike}>
+          <div className="comment-like liked" onClick={handleUnlike}>
             Liked
           </div>
         ) : (

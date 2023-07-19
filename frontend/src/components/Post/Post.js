@@ -6,6 +6,7 @@ import Comment from "../Comment/Comment";
 
 export const Post = ({ post, loading, user }) => {
   const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
+  const [likeCount, setLikeCount] = useState(post.likes.length);
   const [comment, setComment] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [comments, setComments] = useState([]);
@@ -19,6 +20,7 @@ export const Post = ({ post, loading, user }) => {
     try {
       await callApi(`likePost`, "put", user.token, { postId: post._id });
       setIsLiked(true);
+      setLikeCount((prev) => prev + 1);
     } catch (err) {
       console.log(err);
     }
@@ -32,6 +34,7 @@ export const Post = ({ post, loading, user }) => {
     try {
       await callApi(`likePost`, "put", user.token, { postId: post._id });
       setIsLiked(false);
+      setLikeCount((prev) => prev - 1);
     } catch (err) {
       console.log(err);
     }
@@ -55,17 +58,6 @@ export const Post = ({ post, loading, user }) => {
         ...comments,
         { comment: comment, commentBy: user },
       ];
-      setComments(updatedComments);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleCommentDelete = (commentId) => {
-    try {
-      const updatedComments = comments.filter(
-        (comment) => comment._id !== commentId
-      );
       setComments(updatedComments);
     } catch (err) {
       console.log(err);
@@ -126,11 +118,13 @@ export const Post = ({ post, loading, user }) => {
       <div className="post-footer">
         {isLiked ? (
           <div className="like-button" onClick={handleUnlike}>
-            <span className="material-symbols-outlined">thumb_up</span>Liked
+            <span className="material-symbols-outlined">thumb_up</span>Liked (
+            {likeCount == 0 ? null : likeCount})
           </div>
         ) : (
           <div className="like-button" onClick={handleLike}>
-            <span className="material-symbols-outlined">thumb_up</span>Like
+            <span className="material-symbols-outlined">thumb_up</span>Like (
+            {likeCount == 0 ? null : likeCount})
           </div>
         )}
         <div className="comment-button">

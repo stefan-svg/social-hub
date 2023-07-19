@@ -133,8 +133,6 @@ exports.likeComment = async (req, res) => {
       comment.comments[0].likes.push(userId);
     }
 
-    comment.comments[0].likes.push(userId);
-
     await comment.save();
     res.json({ message: "Success" });
   } catch (error) {
