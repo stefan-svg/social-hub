@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { callApi } from "../../helpers/callApi";
 import "./Post.css";
 import Comment from "../Comment/Comment";
 
 export const Post = ({ post, loading, user }) => {
+  const postRef = useRef(null);
   const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [comment, setComment] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [comments, setComments] = useState([]);
   const [count, setCount] = useState(1);
-
   useEffect(() => {
     setComments(post?.comments);
   }, [post]);
@@ -67,7 +67,7 @@ export const Post = ({ post, loading, user }) => {
   const handleDelete = async () => {
     try {
       await callApi(`deletePost/${post._id}`, "delete", user.token);
-      window.location.reload(true);
+      postRef.current.remove();
     } catch (err) {
       console.log(err);
     }
@@ -83,7 +83,7 @@ export const Post = ({ post, loading, user }) => {
   });
 
   return loading ? null : (
-    <div className="post">
+    <div className="post" ref={postRef}>
       <div className="post-header">
         <img src={post.postedBy.profilePicture} alt="" />
         <div className="post-user-info">
@@ -118,13 +118,19 @@ export const Post = ({ post, loading, user }) => {
       <div className="post-footer">
         {isLiked ? (
           <div className="like-button" onClick={handleUnlike}>
-            <span className="material-symbols-outlined">thumb_up</span>Liked (
-            {likeCount == 0 ? null : likeCount})
+            <span className="material-symbols-outlined">thumb_up</span>
+            <span className="liked">Liked</span>
+            {likeCount == 0 ? null : (
+              <span className="like-counter">({likeCount})</span>
+            )}
           </div>
         ) : (
           <div className="like-button" onClick={handleLike}>
-            <span className="material-symbols-outlined">thumb_up</span>Like (
-            {likeCount == 0 ? null : likeCount})
+            <span className="material-symbols-outlined">thumb_up</span>
+            <span className="like">Like</span>
+            {likeCount == 0 ? null : (
+              <span className="like-counter">({likeCount})</span>
+            )}
           </div>
         )}
         <div className="comment-button">
@@ -157,7 +163,13 @@ export const Post = ({ post, loading, user }) => {
             .slice(0, count)
             .map((comment, i) => (
               <div className="comment-wrapper" key={i}>
-                <Comment post={post} comment={comment} user={user} />
+                <Comment
+                  post={post}
+                  comment={comment}
+                  comments={comments}
+                  setComments={setComments}
+                  user={user}
+                />
               </div>
             ))}
         {count < comments.length && (

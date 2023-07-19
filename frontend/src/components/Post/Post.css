@@ -107,9 +107,17 @@
   background-color: rgb(238, 238, 238);
 }
 
-.post-footer .like-button span,
+.post-footer .like-button span:not(.like-counter, .like),
 .post-footer .comment-button span {
   color: var(--primary-color);
+}
+
+.liked {
+  color: var(--primary-color);
+}
+
+.like-counter {
+  margin-left: 0.2rem;
 }
 
 .post-footer .like-button {
@@ -140,7 +148,6 @@
   bottom: 0.5rem;
   cursor: pointer;
 }
-
 
 .delete-button {
   position: absolute;
@@ -181,10 +188,10 @@
 
 .modal-delete-buttons button {
   margin-left: 10px;
-  padding:10px 20px;
+  padding: 10px 20px;
 }
 
-.view_comments{
+.view_comments {
   cursor: pointer;
   color: var(--primary-color);
   margin-top: 0.5rem;

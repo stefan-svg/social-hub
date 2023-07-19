@@ -110,8 +110,7 @@ exports.likePost = async (req, res) => {
 
 exports.likeComment = async (req, res) => {
   try {
-    const { postId } = req.body;
-    const { commentId } = req.body;
+    const { postId, commentId } = req.body;
     const userId = req.user.id;
 
     const comment = await Post.findOne(
@@ -128,7 +127,9 @@ exports.likeComment = async (req, res) => {
     const isLiked = likes.includes(userId);
 
     if (isLiked) {
-      comment.comments[0].likes = likes.filter((id) => id.toString() !== userId);
+      comment.comments[0].likes = likes.filter(
+        (id) => id.toString() !== userId
+      );
     } else {
       comment.comments[0].likes.push(userId);
     }
@@ -137,5 +138,40 @@ exports.likeComment = async (req, res) => {
     res.json({ message: "Success" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const comment = post.comments.id(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    const userId = req.user.id;
+
+    if (
+      post.postedBy.toString() === userId ||
+      comment.commentBy.toString() === userId
+    ) {
+      post.comments = post.comments.filter(comment => comment._id.toString() !== commentId);
+      await post.save();
+      return res.json({ message: "Comment deleted successfully" });
+    } else {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this comment" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 };

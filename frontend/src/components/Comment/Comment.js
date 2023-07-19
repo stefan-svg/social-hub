@@ -3,21 +3,21 @@ import "./Comment.css";
 import { Link } from "react-router-dom";
 import { callApi } from "../../helpers/callApi";
 
-const Comment = ({ post, comment, user }) => {
+const Comment = ({ post, comment, comments, setComments, user }) => {
   const [isLiked, setIsLiked] = useState(comment.likes.includes(user.id));
-  const [isCommentOwner, setIsCommentOwner] = useState(
-    comment.commentBy._id === user.id
-  );
-
-  const handleCommentDelete = (commentId) => {
-    // try {
-    //   const updatedComments = comments.filter(
-    //     (comment) => comment._id !== commentId
-    //   );
-    //   setComments(updatedComments);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const canDelete =
+    comment.commentBy._id === user.id || post.postedBy._id === user.id;
+  const handleCommentDelete = async () => {
+    try {
+      await callApi(
+        `deleteComment/${post._id}/${comment._id}`,
+        "delete",
+        user.token
+      );
+      setComments(comments.filter((c) => c._id !== comment._id));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleLike = async () => {
@@ -62,7 +62,7 @@ const Comment = ({ post, comment, user }) => {
             </Link>
             <p className="comment-text">{comment.comment}</p>
           </div>
-          {isCommentOwner ? (
+          {canDelete ? (
             <div className="comment-more" onClick={handleCommentDelete}>
               <span className="material-symbols-outlined">delete</span>
             </div>

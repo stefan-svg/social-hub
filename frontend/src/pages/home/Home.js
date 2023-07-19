@@ -32,7 +32,6 @@ export const Home = () => {
     fetchPosts();
   }, [user.token]);
 
-
   return (
     <>
       <Header />
