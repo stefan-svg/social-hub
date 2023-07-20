@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import "./Search.css";
@@ -45,7 +44,7 @@ export const Search = () => {
           onChange={handleSearchChange}
         />
       </form>
-      {searchResults.length > 0 && !searchQuery == "" ? (
+      {searchResults.length > 0 && searchQuery !== "" ? (
         <div className="result">
           {searchResults.map((user) => (
             <div
