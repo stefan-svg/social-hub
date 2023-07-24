@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Modal from "react-modal";
 import "./CreatePost.css";
 import { useSelector } from "react-redux";
+import { callApi } from "../../helpers/callApi";
 
 export const CreatePost = () => {
   const user = useSelector((state) => state.user);
@@ -23,17 +23,16 @@ export const CreatePost = () => {
   };
 
   const handlePostSubmit = async (e) => {
-    await axios
-      .post(
-        `http://localhost:8080/createPost`,
-        {
-          text: postText,
-          id: user.id,
-        },
-        { headers: { Authorization: "Bearer " + user.token } }
-      )
-      .catch((error) => console.log(error));
-    handleModalClose();
+    e.preventDefault();
+    try {
+      await callApi("createPost", "post", user.token, {
+        text: postText,
+        id: user.id,
+      });
+      handleModalClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
