@@ -37,6 +37,17 @@ export const ProfileHeader = (props) => {
     }
   };
 
+  const handleChat = async () => {
+    try {
+      const chat = await callApi("chat", "get", user.token, {
+        secondUser: props.profile?.data?._id,
+      });
+      console.log(chat);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="profile-header">
       {props.loading ? null : (
@@ -59,7 +70,7 @@ export const ProfileHeader = (props) => {
                 ) : (
                   <button onClick={handleFollow}>Follow</button>
                 )}
-                <button>Message</button>
+                <button onClick={handleChat}>Message</button>
               </div>
             ) : null}
           </div>
