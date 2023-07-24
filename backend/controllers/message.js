@@ -4,7 +4,10 @@ exports.getMessages = async (req, res) => {
   const { chatId } = req.params;
 
   try {
-    const messages = await Message.find({ chat: chatId });
+    const messages = await Message.find({ chat: chatId }).populate(
+      "sender",
+      "firstName lastName profilePicture"
+    );
     return res.json(messages);
   } catch (error) {
     return res.status(500).json({ error: "Error getting messages" });

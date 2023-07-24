@@ -24,6 +24,7 @@ header .header-left .search-bar input:focus {
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
 
 .result .search-profile {

@@ -2,9 +2,11 @@ import "./ProfileHeader.css";
 import { useSelector } from "react-redux";
 import { callApi } from "../../helpers/callApi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ProfileHeader = (props) => {
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(
     props.data?.profile?.followers?.includes(user.id)
   );
@@ -39,10 +41,10 @@ export const ProfileHeader = (props) => {
 
   const handleChat = async () => {
     try {
-      const chat = await callApi("chat", "get", user.token, {
-        secondUser: props.profile?.data?._id,
+      const chat = await callApi("chat", "post", user.token, {
+        secondUser: props.data.profile._id,
       });
-      console.log(chat);
+      navigate(`/chat/${chat._id}`)
     } catch (err) {
       console.log(err);
     }
