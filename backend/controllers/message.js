@@ -24,6 +24,7 @@ exports.sendMessage = async (req, res) => {
       content,
       chat: chatId,
     });
+    await message.populate("sender", "firstName lastName profilePicture");
     const savedMessage = await message.save();
     return res.json(savedMessage);
   } catch (error) {

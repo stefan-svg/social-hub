@@ -30,8 +30,8 @@ export const CreatePost = () => {
         id: user.id,
       });
       handleModalClose();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 

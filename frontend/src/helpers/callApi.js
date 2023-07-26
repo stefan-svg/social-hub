@@ -27,7 +27,7 @@ export const callApi = async (path, method, token, payload) => {
       const { data } = responseData;
       return data;
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };

@@ -1,7 +1,6 @@
 import "./AllChats.css";
 
 export const AllChats = ({ allChats, userId }) => {
-  console.log(allChats);
   return (
     <>
       <div className="all-chats">
